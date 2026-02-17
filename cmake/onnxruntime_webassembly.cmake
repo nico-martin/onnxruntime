@@ -239,6 +239,13 @@ else()
     "SHELL:-s FILESYSTEM=0"
     "SHELL:-s INCOMING_MODULE_JS_API=[locateFile,instantiateWasm,wasmBinary]"
     "SHELL:-s WASM_BIGINT=1"
+    # Use Fetch API instead of XMLHttpRequest for better compatibility with modern environments
+    # like Chrome Extension service workers where XMLHttpRequest may not be available
+    "SHELL:-s FETCH=1"
+    # Target web environments (browser, webview, worker) to avoid Node.js-specific code
+    "SHELL:-s ENVIRONMENT=web,webview,worker"
+    # Enable async compilation to avoid synchronous XMLHttpRequest usage
+    "SHELL:-s WASM_ASYNC_COMPILATION=1"
     --no-entry
     "SHELL:--pre-js \"${ONNXRUNTIME_ROOT}/wasm/pre.js\""
   )
